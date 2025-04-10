@@ -8,7 +8,7 @@ import random
 
 # Configuration de la page
 st.set_page_config(
-    page_title="Où se baigner ? - Qualité des eaux en Nouvelle-Aquitaine",
+    page_title="Où se baigner ? - Qualité des eaux",
     page_icon="💦",
     layout="wide"
 )
