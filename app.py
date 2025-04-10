@@ -14,9 +14,9 @@ st.set_page_config(
 )
 
 # Titre et introduction
-st.title("🏊 Où se baigner ? - Qualité des eaux en Nouvelle-Aquitaine")
+st.title("🏊 Où se baigner ? - Qualité des eaux")
 st.markdown("""
-Cette application vous permet de trouver des points de baignade en Nouvelle-Aquitaine 
+Cette application vous permet de trouver des points de baignade 
 et de consulter la qualité de l'eau. Recherchez par ville ou filtrez selon vos critères !
 """)
 
