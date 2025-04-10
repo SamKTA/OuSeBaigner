@@ -322,13 +322,59 @@ def create_data():
     # Ajout de la colonne qualité (libellé)
     df["qualite"] = df["qualite_code"].map(quality_codes)
     
-    # Ajout de coordonnées simulées pour la démonstration
+    # Simulation de coordonnées pour la démonstration
     # Dans une application réelle, il faudrait utiliser une API de géocodage
-    # ou avoir les coordonnées précises dans les données sources
     coordinates = {
         # Coordonnées approximatives pour quelques villes de Nouvelle-Aquitaine
         "ANGLET": (43.4831, -1.5142),
+        "BIARRITZ": (43.4832, -1.5586),
+        "HENDAYE": (43.3784, -1.7735),
+        "BORDEAUX": (44.8378, -0.5792),
+        "LACANAU": (45.0014, -1.1958),
+        "ARCACHON": (44.6523, -1.1677),
+        "ANDERNOS-LES-BAINS": (44.7431, -1.0989),
+        "POITIERS": (46.5802, 0.3404),
+        "SAINT-YRIEIX-LA-PERCHE": (45.5147, 1.2055),
+        "BEAUMONT-DU-LAC": (45.7876, 1.8724),
+        "BISCARROSSE": (44.3917, -1.1650),
+        "MIMIZAN": (44.2014, -1.2299),
+        "CAPBRETON": (43.6394, -1.4331),
+        "SEIGNOSSE": (43.6932, -1.3729),
+        "SAINT-JEAN-DE-LUZ": (43.3896, -1.6613),
+        "ROYAN": (45.6231, -1.0267)
+    }
+    
+    # Pour les villes sans coordonnées, on génère des positions aléatoires dans la région
+    def generate_random_coordinates():
+        # Limites approximatives pour la Nouvelle-Aquitaine
+        min_lat, max_lat = 43.0, 47.0
+        min_lon, max_lon = -1.8, 2.5
+        return (min_lat + random.random() * (max_lat - min_lat),
+                min_lon + random.random() * (max_lon - min_lon))
+    
+    # Ajout des coordonnées au DataFrame
+    latitudes = []
+    longitudes = []
+    
+    for commune in df["commune"]:
+        if commune in coordinates:
+            lat, lon = coordinates[commune]
+        else:
+            # Coordonnées aléatoires pour les communes non répertoriées
+            lat, lon = generate_random_coordinates()
+            # Sauvegarde pour la cohérence (même commune = mêmes coordonnées)
+            coordinates[commune] = (lat, lon)
         
+        latitudes.append(lat)
+        longitudes.append(lon)
+    
+    df["latitude"] = latitudes
+    df["longitude"] = longitudes
+    
+    return df
+
+# Création du dataframe
+df = create_data()
 
 # Sidebar pour les filtres
 st.sidebar.header("Filtres")
