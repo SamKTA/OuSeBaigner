@@ -1,3 +1,4 @@
+
 import streamlit as st
 import pandas as pd
 import folium
@@ -123,12 +124,18 @@ def create_data():
             "region": "Nouvelle-Aquitaine"
         })
     
-    # 64 - PYRENEES-ATLANTIQUES (échantillon)
+    # 64 - PYRENEES-ATLANTIQUES (sélection depuis le PDF)
     locations_64 = [
         ["ANGLET", "LA BARRE", "mer", "18E"],
+        ["ANGLET", "LA MADRAGUE (CHIBERTA)", "mer", "10E"],
+        ["ANGLET", "LES CAVALIERS", "mer", "10E"],
         ["BIARRITZ", "COTE DES BASQUES", "mer", "19E"],
         ["BIARRITZ", "GRANDE PLAGE NORD (PALAIS)", "mer", "16E"],
-        ["HENDAYE", "CASINO", "mer", "18E"]
+        ["BIARRITZ", "MIRAMAR", "mer", "20E"],
+        ["HENDAYE", "CASINO", "mer", "18E"],
+        ["HENDAYE", "LES DEUX JUMEAUX", "mer", "20E"],
+        ["SAINT-JEAN-DE-LUZ", "GRANDE PLAGE NORD-CALE AUX CHEVAUX", "mer", "20B"],
+        ["SAINT-PEE-SUR-NIVELLE", "PLAGE LAC ST PEE SUR NIVELLE", "douce", "6E"]
     ]
     
     for item in locations_64:
@@ -143,18 +150,164 @@ def create_data():
             "region": "Nouvelle-Aquitaine"
         })
     
-    # 33 - GIRONDE (échantillon)
+    # 33 - GIRONDE (sélection depuis le PDF)
     locations_33 = [
         ["ANDERNOS-LES-BAINS", "LE BETEY", "mer", "11E"],
         ["ARCACHON", "JETEE THIERS", "mer", "13E"],
+        ["ARCACHON", "LE MOULLEAU", "mer", "9E"],
+        ["BORDEAUX", "LAC DE BORDEAUX", "douce", "15E"],
+        ["CARCANS", "CARCANS OCEAN", "mer", "10E"],
+        ["HOURTIN", "HOURTIN OCEAN", "mer", "10E"],
         ["LACANAU", "CENTRE", "mer", "14E"],
-        ["BORDEAUX", "LAC DE BORDEAUX", "douce", "15E"]
+        ["LACANAU", "PLAGE SUD", "mer", "12E"]
     ]
     
     for item in locations_33:
         data.append({
             "departement": "33",
             "departement_nom": "GIRONDE",
+            "commune": item[0],
+            "point_prelevement": item[1],
+            "type_eau": item[2],
+            "qualite_code": item[3][1:],
+            "nb_prelevements": item[3][0],
+            "region": "Nouvelle-Aquitaine"
+        })
+    
+    # 40 - LANDES (sélection depuis le PDF)
+    locations_40 = [
+        ["BISCARROSSE", "PLAGE CENTRE", "mer", "5E"],
+        ["BISCARROSSE", "PLAGE NORD", "mer", "6E"],
+        ["CAPBRETON", "PLAGE CENTRALE", "mer", "10E"],
+        ["MIMIZAN", "LES AILES", "mer", "10E"],
+        ["MOLIETS-ET-MAA", "PLAGE PRINCIPALE", "mer", "9E"],
+        ["SEIGNOSSE", "PENON", "mer", "10E"]
+    ]
+    
+    for item in locations_40:
+        data.append({
+            "departement": "40",
+            "departement_nom": "LANDES",
+            "commune": item[0],
+            "point_prelevement": item[1],
+            "type_eau": item[2],
+            "qualite_code": item[3][1:],
+            "nb_prelevements": item[3][0],
+            "region": "Nouvelle-Aquitaine"
+        })
+    
+    # 47 - LOT-ET-GARONNE (sélection depuis le PDF)
+    locations_47 = [
+        ["AIGUILLON", "PLAGE AIGUILLON", "douce", "5E"],
+        ["CASTELJALOUX", "LAC DE CLARENS", "douce", "6E"],
+        ["DAMAZAN", "LAC DU MOULINEAU", "douce", "5E"],
+        ["LOUGRATTE", "LAC DE LOUGRATTE", "douce", "7E"]
+    ]
+    
+    for item in locations_47:
+        data.append({
+            "departement": "47",
+            "departement_nom": "LOT-ET-GARONNE",
+            "commune": item[0],
+            "point_prelevement": item[1],
+            "type_eau": item[2],
+            "qualite_code": item[3][1:],
+            "nb_prelevements": item[3][0],
+            "region": "Nouvelle-Aquitaine"
+        })
+    
+    # 24 - DORDOGNE (sélection depuis le PDF)
+    locations_24 = [
+        ["ANGOISSE", "PLAN D'EAU DE ROUFFIAC", "douce", "7E"],
+        ["BERGERAC", "POMBONNE", "douce", "5E"],
+        ["CARSAC-DE-GURSON", "GURSON", "douce", "6E"],
+        ["SAINT-ESTEPHE", "GRAND ETANG DE ST ESTEPHE", "douce", "6E"]
+    ]
+    
+    for item in locations_24:
+        data.append({
+            "departement": "24",
+            "departement_nom": "DORDOGNE",
+            "commune": item[0],
+            "point_prelevement": item[1],
+            "type_eau": item[2],
+            "qualite_code": item[3][1:],
+            "nb_prelevements": item[3][0],
+            "region": "Nouvelle-Aquitaine"
+        })
+    
+    # 19 - CORREZE (sélection depuis le PDF)
+    locations_19 = [
+        ["AMBRUGEAT", "LAC DE SECHEMAILLES", "douce", "5E"],
+        ["AURIAC", "PLAN D'EAU COMMUNAL", "douce", "5E"],
+        ["NEUVIC", "LA PLAGE", "douce", "5E"],
+        ["TREIGNAC", "LES BARIOUSSES", "douce", "5E"]
+    ]
+    
+    for item in locations_19:
+        data.append({
+            "departement": "19",
+            "departement_nom": "CORREZE",
+            "commune": item[0],
+            "point_prelevement": item[1],
+            "type_eau": item[2],
+            "qualite_code": item[3][1:],
+            "nb_prelevements": item[3][0],
+            "region": "Nouvelle-Aquitaine"
+        })
+    
+    # 23 - CREUSE (sélection depuis le PDF)
+    locations_23 = [
+        ["ANZEME", "PECHADOIRE", "douce", "5B"],
+        ["CHAMPAGNAT", "LA NAUTE", "douce", "5E"],
+        ["GUERET", "COURTILLE", "douce", "5B"],
+        ["ROYERE-DE-VASSIVIERE", "BROUSSAS", "douce", "5E"]
+    ]
+    
+    for item in locations_23:
+        data.append({
+            "departement": "23",
+            "departement_nom": "CREUSE",
+            "commune": item[0],
+            "point_prelevement": item[1],
+            "type_eau": item[2],
+            "qualite_code": item[3][1:],
+            "nb_prelevements": item[3][0],
+            "region": "Nouvelle-Aquitaine"
+        })
+    
+    # 16 - CHARENTE (sélection depuis le PDF)
+    locations_16 = [
+        ["AUBETERRE-SUR-DRONNE", "BAIGNADE MUNICIPALE", "douce", "5B"],
+        ["ECURAS", "VILLAGE LE CHAT", "douce", "9E"],
+        ["SAINT-YRIEIX-SUR-CHARENTE", "LA GRANDE PRAIRIE", "douce", "7E"],
+        ["VINDELLE", "LES PETITS ESSARDS", "douce", "5E"]
+    ]
+    
+    for item in locations_16:
+        data.append({
+            "departement": "16",
+            "departement_nom": "CHARENTE",
+            "commune": item[0],
+            "point_prelevement": item[1],
+            "type_eau": item[2],
+            "qualite_code": item[3][1:],
+            "nb_prelevements": item[3][0],
+            "region": "Nouvelle-Aquitaine"
+        })
+    
+    # 17 - CHARENTE-MARITIME (sélection depuis le PDF)
+    locations_17 = [
+        ["ANGOULINS", "PLAGE DE LA PLATERRE", "mer", "6E"],
+        ["BOURCEFRANC-LE-CHAPUS", "LA PLAGE", "mer", "10E"],
+        ["FOURAS", "PLAGE DE L'ESPERANCE", "mer", "12E"],
+        ["ROYAN", "PLAGE DE LA GRANDE CONCHE", "mer", "10E"]
+    ]
+    
+    for item in locations_17:
+        data.append({
+            "departement": "17",
+            "departement_nom": "CHARENTE-MARITIME",
             "commune": item[0],
             "point_prelevement": item[1],
             "type_eau": item[2],
@@ -173,50 +326,9 @@ def create_data():
     # Dans une application réelle, il faudrait utiliser une API de géocodage
     # ou avoir les coordonnées précises dans les données sources
     coordinates = {
-        # Coordonnées approximatives pour quelques villes
+        # Coordonnées approximatives pour quelques villes de Nouvelle-Aquitaine
         "ANGLET": (43.4831, -1.5142),
-        "BIARRITZ": (43.4832, -1.5586),
-        "HENDAYE": (43.3784, -1.7735),
-        "BORDEAUX": (44.8378, -0.5792),
-        "LACANAU": (45.0014, -1.1958),
-        "ARCACHON": (44.6523, -1.1677),
-        "ANDERNOS-LES-BAINS": (44.7431, -1.0989),
-        "POITIERS": (46.5802, 0.3404),
-        "SAINT-YRIEIX-LA-PERCHE": (45.5147, 1.2055),
-        "BEAUMONT-DU-LAC": (45.7876, 1.8724)
-    }
-    
-    # Pour les villes sans coordonnées, générons des positions aléatoires dans la région Nouvelle-Aquitaine
-    def generate_random_coordinates():
-        # Limites approximatives pour la Nouvelle-Aquitaine
-        min_lat, max_lat = 43.0, 47.0
-        min_lon, max_lon = -1.8, 2.5
-        return (min_lat + random.random() * (max_lat - min_lat),
-                min_lon + random.random() * (max_lon - min_lon))
-    
-    # Ajout des coordonnées au DataFrame
-    latitudes = []
-    longitudes = []
-    
-    for commune in df["commune"]:
-        if commune in coordinates:
-            lat, lon = coordinates[commune]
-        else:
-            # Coordonnées aléatoires pour les communes non répertoriées
-            lat, lon = generate_random_coordinates()
-            # Sauvegarde pour la cohérence (même commune = mêmes coordonnées)
-            coordinates[commune] = (lat, lon)
         
-        latitudes.append(lat)
-        longitudes.append(lon)
-    
-    df["latitude"] = latitudes
-    df["longitude"] = longitudes
-    
-    return df
-
-# Création du dataframe
-df = create_data()
 
 # Sidebar pour les filtres
 st.sidebar.header("Filtres")
