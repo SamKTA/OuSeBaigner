@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import folium
@@ -8,17 +7,14 @@ import random
 
 # Configuration de la page
 st.set_page_config(
-    page_title="Où se baigner ? - Qualité des eaux",
+    page_title="Où se baigner ? - Qualité des eaux en Nouvelle-Aquitaine",
     page_icon="💦",
     layout="wide"
 )
 
 # Titre et introduction
-st.title("🏊 Où se baigner ? - Qualité des eaux")
-st.markdown("""
-Cette application vous permet de trouver des points de baignade 
-et de consulter la qualité de l'eau. Recherchez par ville ou filtrez selon vos critères !
-""")
+st.title("🏊 Où se baigner ? - Qualité des eaux autour de Bordeaux et Arcachon")
+
 
 # Création du dataframe à partir des données extraites
 def create_data():
@@ -32,134 +28,48 @@ def create_data():
         "N": "Site non classé"
     }
     
-    # Données extraites des PDFs
+    # Données extraites des PDFs - Zone de Bordeaux et Arcachon (100km environ)
     data = []
     
-    # 87 - HAUTE-VIENNE
-    locations_87 = [
-        ["AMBAZAC", "JONAS", "douce", "5N"],
-        ["BEAUMONT-DU-LAC", "NERGOUT", "douce", "5E"],
-        ["BEAUMONT-DU-LAC", "PIERREFITTE", "douce", "5E"],
-        ["BESSINES-SUR-GARTEMPE", "SAGNAT", "douce", "5E"],
-        ["BUJALEUF", "SAINTE-HELENE", "douce", "5E"],
-        ["BUSSIERE-GALANT", "PLAN D'EAU DE BUSSIERE-GALANT", "douce", "5E"],
-        ["CHATEAU-CHERVIX", "ETANG DU PUY-CHAUMARTIN", "douce", "5E"],
-        ["CHATEAUNEUF-LA-FORET", "PLAN D'EAU DE CHATEAUNEUF-LA-FORET", "douce", "5P"],
-        ["CHEISSOUX", "CAMPING LOUS SUAIS", "douce", "5E"],
-        ["COGNAC-LA-FORET", "PLAN D'EAU DE COGNAC-LA-FORET", "douce", "5E"],
-        ["COMPREIGNAC", "LES CHABANNES", "douce", "5E"],
-        ["FLAVIGNAC", "SAINT FORTUNAT", "douce", "5E"],
-        ["MEUZAC", "LA ROCHE", "douce", "5E"],
-        ["PEYRAT-LE-CHATEAU", "AUPHELLE", "douce", "5E"],
-        ["PEYRAT-LE-CHATEAU", "ETANG DU BOURG DE PEYRAT-LE-CHATEAU", "douce", "5E"],
-        ["RAZES", "SANTROP", "douce", "5E"],
-        ["SAINT-GERMAIN-LES-BELLES", "MONTREAL", "douce", "5E"],
-        ["SAINT-HILAIRE-LES-PLACES", "PLAISANCE", "douce", "6E"],
-        ["SAINT-JULIEN-LE-PETIT", "LA MAULDE", "douce", "5E"],
-        ["SAINT-MARTIN-TERRESSUS", "PLAN D'EAU DU SOLEIL LEVANT", "douce", "5E"],
-        ["SAINT-MATHIEU", "LE LAC", "douce", "5E"],
-        ["SAINT-PARDOUX-LE-LAC", "FREAUDOUR", "douce", "5E"],
-        ["SAINT-YRIEIX-LA-PERCHE", "ARFEUILLE", "douce", "5S"],
-        ["SUSSAC", "LES SAULES", "douce", "5E"],
-        ["SUSSAC", "PLAN D'EAU DE SUSSAC", "douce", "5E"],
-        ["VIDEIX", "LA CHASSAGNE", "douce", "5E"]
-    ]
-    
-    for item in locations_87:
-        data.append({
-            "departement": "87",
-            "departement_nom": "HAUTE-VIENNE",
-            "commune": item[0],
-            "point_prelevement": item[1],
-            "type_eau": item[2],
-            "qualite_code": item[3][1:],
-            "nb_prelevements": item[3][0],
-            "region": "Nouvelle-Aquitaine"
-        })
-    
-    # 86 - VIENNE
-    locations_86 = [
-        ["BEAUMONT SAINT-CYR", "ST CYR - PARC DE LOISIRS (ETANG)", "douce", "6E"],
-        ["BONNEUIL-MATOURS", "BONNEUIL MATOURS - PARC DE CREMAULT (LA VIENNE)", "douce", "5B"],
-        ["BUSSIERE (LA)", "LA BUSSIERE - LA BERTHOLIERE (LA GARTEMPE)", "douce", "5I"],
-        ["CHATELLERAULT", "CHATELLERAULT - LAC DE LA FORET", "douce", "5E"],
-        ["LATHUS-SAINT-REMY", "LATHUS ST REMY - LA VOULZIE", "douce", "5I"],
-        ["LUSIGNAN", "LUSIGNAN - CAMPING (LA VONNE)", "douce", "5E"],
-        ["MONCONTOUR", "MONCONTOUR - PLAN D'EAU DU GRAND MAGNE (LA DIVE)", "douce", "5E"],
-        ["POITIERS", "POITIERS - TISON", "douce", "6N"],
-        ["PUYE (LA)", "LA PUYE - PLAN D'EAU COMMUNAL", "douce", "5P"],
-        ["QUEAUX", "QUEAUX - CAMPING (LA VIENNE)", "douce", "5I"],
-        ["ROCHE-POSAY (LA)", "LA ROCHE-POSAY (BAIGNADE SUR LA CREUSE)", "douce", "5B"],
-        ["SAINT-MACOUX", "ST MACOUX - PLAN D'EAU COMMUNAL DU MARAIS", "douce", "5E"],
-        ["SAINT-MARTIN-L'ARS", "ST MARTIN L'ARS - PLAN D'EAU COMMUNAL (LE CLAIN)", "douce", "0P"]
-    ]
-    
-    for item in locations_86:
-        data.append({
-            "departement": "86",
-            "departement_nom": "VIENNE",
-            "commune": item[0],
-            "point_prelevement": item[1],
-            "type_eau": item[2],
-            "qualite_code": item[3][1:],
-            "nb_prelevements": item[3][0],
-            "region": "Nouvelle-Aquitaine"
-        })
-    
-    # 79 - DEUX-SEVRES
-    locations_79 = [
-        ["CHERVEUX", "PLAN D'EAU DE CHERVEUX", "douce", "6E"],
-        ["VERRUYES", "PLAN D'EAU DE VERRUYES", "douce", "6E"]
-    ]
-    
-    for item in locations_79:
-        data.append({
-            "departement": "79",
-            "departement_nom": "DEUX-SEVRES",
-            "commune": item[0],
-            "point_prelevement": item[1],
-            "type_eau": item[2],
-            "qualite_code": item[3][1:],
-            "nb_prelevements": item[3][0],
-            "region": "Nouvelle-Aquitaine"
-        })
-    
-    # 64 - PYRENEES-ATLANTIQUES (sélection depuis le PDF)
-    locations_64 = [
-        ["ANGLET", "LA BARRE", "mer", "18E"],
-        ["ANGLET", "LA MADRAGUE (CHIBERTA)", "mer", "10E"],
-        ["ANGLET", "LES CAVALIERS", "mer", "10E"],
-        ["BIARRITZ", "COTE DES BASQUES", "mer", "19E"],
-        ["BIARRITZ", "GRANDE PLAGE NORD (PALAIS)", "mer", "16E"],
-        ["BIARRITZ", "MIRAMAR", "mer", "20E"],
-        ["HENDAYE", "CASINO", "mer", "18E"],
-        ["HENDAYE", "LES DEUX JUMEAUX", "mer", "20E"],
-        ["SAINT-JEAN-DE-LUZ", "GRANDE PLAGE NORD-CALE AUX CHEVAUX", "mer", "20B"],
-        ["SAINT-PEE-SUR-NIVELLE", "PLAGE LAC ST PEE SUR NIVELLE", "douce", "6E"]
-    ]
-    
-    for item in locations_64:
-        data.append({
-            "departement": "64",
-            "departement_nom": "PYRENEES-ATLANTIQUES",
-            "commune": item[0],
-            "point_prelevement": item[1],
-            "type_eau": item[2],
-            "qualite_code": item[3][1:],
-            "nb_prelevements": item[3][0],
-            "region": "Nouvelle-Aquitaine"
-        })
-    
-    # 33 - GIRONDE (sélection depuis le PDF)
+    # 33 - GIRONDE (Bassin d'Arcachon et alentours) - Avec coordonnées précises
     locations_33 = [
-        ["ANDERNOS-LES-BAINS", "LE BETEY", "mer", "11E"],
-        ["ARCACHON", "JETEE THIERS", "mer", "13E"],
-        ["ARCACHON", "LE MOULLEAU", "mer", "9E"],
-        ["BORDEAUX", "LAC DE BORDEAUX", "douce", "15E"],
-        ["CARCANS", "CARCANS OCEAN", "mer", "10E"],
-        ["HOURTIN", "HOURTIN OCEAN", "mer", "10E"],
-        ["LACANAU", "CENTRE", "mer", "14E"],
-        ["LACANAU", "PLAGE SUD", "mer", "12E"]
+        # Arcachon et Bassin
+        ["ARCACHON", "JETEE THIERS", "mer", "13E", 44.6642, -1.1679],
+        ["ARCACHON", "LE MOULLEAU", "mer", "9E", 44.6415, -1.2177],
+        ["ARCACHON", "PEREIRE", "mer", "13E", 44.6527, -1.2002],
+        ["LA TESTE-DE-BUCH", "PLAGE CAZAUX", "douce", "13E", 44.5430, -1.1468],
+        ["LA TESTE-DE-BUCH", "LA SALIE NORD", "mer", "8E", 44.5489, -1.2546],
+        ["LA TESTE-DE-BUCH", "PETIT NICE", "mer", "8B", 44.5678, -1.2499],
+        ["LA TESTE-DE-BUCH", "LA LAGUNE", "mer", "7E", 44.5967, -1.2379],
+        ["LEGE-CAP-FERRET", "CAP-FERRET PHARE", "mer", "11E", 44.6354, -1.2529],
+        ["LEGE-CAP-FERRET", "GRAND CROHOT", "mer", "9E", 44.7786, -1.2614],
+        ["LEGE-CAP-FERRET", "TRUC VERT", "mer", "9E", 44.7189, -1.2607],
+        ["LEGE-CAP-FERRET", "L'HORIZON", "mer", "8E", 44.6689, -1.2584],
+        ["LEGE-CAP-FERRET", "CLAOUEY", "mer", "11E", 44.7307, -1.1916],
+        ["ANDERNOS-LES-BAINS", "LE BETEY", "mer", "11E", 44.7404, -1.1147],
+        ["ANDERNOS-LES-BAINS", "PLAGE DU CENTRE", "mer", "10E", 44.7462, -1.1025],
+        ["LANTON", "TAUSSAT", "mer", "12E", 44.7324, -1.1304],
+        ["LANTON", "CASSY", "mer", "9E", 44.7264, -1.1470],
+        ["GUJAN-MESTRAS", "LARROS", "mer", "9E", 44.6402, -1.0745],
+        ["GUJAN-MESTRAS", "LA HUME", "mer", "8B", 44.6334, -1.0957],
+        
+        # Bordeaux et lac
+        ["BORDEAUX", "LAC DE BORDEAUX", "douce", "15E", 44.8774, -0.5706],
+        ["BRUGES", "PLAGE DU BOIS", "douce", "8E", 44.8863, -0.5963],
+        
+        # Médoc atlantique (< 100km)
+        ["CARCANS", "CARCANS OCEAN", "mer", "10E", 45.0848, -1.1939],
+        ["CARCANS", "MAUBUISSON", "douce", "12E", 45.0731, -1.1427],
+        ["HOURTIN", "HOURTIN OCEAN", "mer", "10E", 45.2192, -1.1883],
+        ["HOURTIN", "LAC D'HOURTIN", "douce", "10E", 45.1845, -1.0878],
+        ["LACANAU", "CENTRE", "mer", "14E", 44.9983, -1.2012],
+        ["LACANAU", "PLAGE SUD", "mer", "12E", 44.9913, -1.2029],
+        ["LACANAU", "NORD", "mer", "10E", 45.0067, -1.1997],
+        ["LACANAU", "LE MOUTCHIC", "douce", "12E", 44.9750, -1.1184],
+        ["LACANAU", "GRANDE ESCOURE", "douce", "8E", 44.9344, -1.1015],
+        
+        # Libourne et environs
+        ["LIBOURNE", "LES DAGUEYS", "douce", "10E", 44.9394, -0.2379]
     ]
     
     for item in locations_33:
@@ -171,17 +81,20 @@ def create_data():
             "type_eau": item[2],
             "qualite_code": item[3][1:],
             "nb_prelevements": item[3][0],
-            "region": "Nouvelle-Aquitaine"
+            "region": "Nouvelle-Aquitaine",
+            "latitude": item[4],
+            "longitude": item[5]
         })
     
-    # 40 - LANDES (sélection depuis le PDF)
+    # 40 - LANDES (proche Bassin d'Arcachon <100km)
     locations_40 = [
-        ["BISCARROSSE", "PLAGE CENTRE", "mer", "5E"],
-        ["BISCARROSSE", "PLAGE NORD", "mer", "6E"],
-        ["CAPBRETON", "PLAGE CENTRALE", "mer", "10E"],
-        ["MIMIZAN", "LES AILES", "mer", "10E"],
-        ["MOLIETS-ET-MAA", "PLAGE PRINCIPALE", "mer", "9E"],
-        ["SEIGNOSSE", "PENON", "mer", "10E"]
+        ["BISCARROSSE", "PLAGE CENTRE", "mer", "5E", 44.4456, -1.2534],
+        ["BISCARROSSE", "PLAGE NORD", "mer", "6E", 44.4558, -1.2525],
+        ["BISCARROSSE", "PLAGE SUD", "mer", "10E", 44.4281, -1.2559],
+        ["BISCARROSSE", "ISPE-NAVARROSSE", "douce", "9E", 44.3811, -1.1649],
+        ["BISCARROSSE", "PLAGE MAGUIDE", "douce", "9E", 44.3980, -1.1695],
+        ["SANGUINET", "CATON", "douce", "9E", 44.4977, -1.0823],
+        ["PARENTIS-EN-BORN", "PLAGE MUNICIPALE", "douce", "9E", 44.3453, -1.0753]
     ]
     
     for item in locations_40:
@@ -193,115 +106,19 @@ def create_data():
             "type_eau": item[2],
             "qualite_code": item[3][1:],
             "nb_prelevements": item[3][0],
-            "region": "Nouvelle-Aquitaine"
+            "region": "Nouvelle-Aquitaine",
+            "latitude": item[4],
+            "longitude": item[5]
         })
-    
-    # 47 - LOT-ET-GARONNE (sélection depuis le PDF)
-    locations_47 = [
-        ["AIGUILLON", "PLAGE AIGUILLON", "douce", "5E"],
-        ["CASTELJALOUX", "LAC DE CLARENS", "douce", "6E"],
-        ["DAMAZAN", "LAC DU MOULINEAU", "douce", "5E"],
-        ["LOUGRATTE", "LAC DE LOUGRATTE", "douce", "7E"]
-    ]
-    
-    for item in locations_47:
-        data.append({
-            "departement": "47",
-            "departement_nom": "LOT-ET-GARONNE",
-            "commune": item[0],
-            "point_prelevement": item[1],
-            "type_eau": item[2],
-            "qualite_code": item[3][1:],
-            "nb_prelevements": item[3][0],
-            "region": "Nouvelle-Aquitaine"
-        })
-    
-    # 24 - DORDOGNE (sélection depuis le PDF)
-    locations_24 = [
-        ["ANGOISSE", "PLAN D'EAU DE ROUFFIAC", "douce", "7E"],
-        ["BERGERAC", "POMBONNE", "douce", "5E"],
-        ["CARSAC-DE-GURSON", "GURSON", "douce", "6E"],
-        ["SAINT-ESTEPHE", "GRAND ETANG DE ST ESTEPHE", "douce", "6E"]
-    ]
-    
-    for item in locations_24:
-        data.append({
-            "departement": "24",
-            "departement_nom": "DORDOGNE",
-            "commune": item[0],
-            "point_prelevement": item[1],
-            "type_eau": item[2],
-            "qualite_code": item[3][1:],
-            "nb_prelevements": item[3][0],
-            "region": "Nouvelle-Aquitaine"
-        })
-    
-    # 19 - CORREZE (sélection depuis le PDF)
-    locations_19 = [
-        ["AMBRUGEAT", "LAC DE SECHEMAILLES", "douce", "5E"],
-        ["AURIAC", "PLAN D'EAU COMMUNAL", "douce", "5E"],
-        ["NEUVIC", "LA PLAGE", "douce", "5E"],
-        ["TREIGNAC", "LES BARIOUSSES", "douce", "5E"]
-    ]
-    
-    for item in locations_19:
-        data.append({
-            "departement": "19",
-            "departement_nom": "CORREZE",
-            "commune": item[0],
-            "point_prelevement": item[1],
-            "type_eau": item[2],
-            "qualite_code": item[3][1:],
-            "nb_prelevements": item[3][0],
-            "region": "Nouvelle-Aquitaine"
-        })
-    
-    # 23 - CREUSE (sélection depuis le PDF)
-    locations_23 = [
-        ["ANZEME", "PECHADOIRE", "douce", "5B"],
-        ["CHAMPAGNAT", "LA NAUTE", "douce", "5E"],
-        ["GUERET", "COURTILLE", "douce", "5B"],
-        ["ROYERE-DE-VASSIVIERE", "BROUSSAS", "douce", "5E"]
-    ]
-    
-    for item in locations_23:
-        data.append({
-            "departement": "23",
-            "departement_nom": "CREUSE",
-            "commune": item[0],
-            "point_prelevement": item[1],
-            "type_eau": item[2],
-            "qualite_code": item[3][1:],
-            "nb_prelevements": item[3][0],
-            "region": "Nouvelle-Aquitaine"
-        })
-    
-    # 16 - CHARENTE (sélection depuis le PDF)
-    locations_16 = [
-        ["AUBETERRE-SUR-DRONNE", "BAIGNADE MUNICIPALE", "douce", "5B"],
-        ["ECURAS", "VILLAGE LE CHAT", "douce", "9E"],
-        ["SAINT-YRIEIX-SUR-CHARENTE", "LA GRANDE PRAIRIE", "douce", "7E"],
-        ["VINDELLE", "LES PETITS ESSARDS", "douce", "5E"]
-    ]
-    
-    for item in locations_16:
-        data.append({
-            "departement": "16",
-            "departement_nom": "CHARENTE",
-            "commune": item[0],
-            "point_prelevement": item[1],
-            "type_eau": item[2],
-            "qualite_code": item[3][1:],
-            "nb_prelevements": item[3][0],
-            "region": "Nouvelle-Aquitaine"
-        })
-    
-    # 17 - CHARENTE-MARITIME (sélection depuis le PDF)
+        
+    # 17 - CHARENTE-MARITIME (nord Gironde, <100km de Bordeaux)
     locations_17 = [
-        ["ANGOULINS", "PLAGE DE LA PLATERRE", "mer", "6E"],
-        ["BOURCEFRANC-LE-CHAPUS", "LA PLAGE", "mer", "10E"],
-        ["FOURAS", "PLAGE DE L'ESPERANCE", "mer", "12E"],
-        ["ROYAN", "PLAGE DE LA GRANDE CONCHE", "mer", "10E"]
+        ["ROYAN", "PLAGE DE LA GRANDE CONCHE", "mer", "10E", 45.6230, -1.0341],
+        ["ROYAN", "PLAGE DE PONTAILLAC", "mer", "12B", 45.6326, -1.0485],
+        ["ROYAN", "PLAGE DU CHAY", "mer", "6E", 45.6259, -1.0422],
+        ["SAINT-PALAIS-SUR-MER", "PLAGE DE LA GRANDE COTE", "mer", "10E", 45.6567, -1.0878],
+        ["SAINT-PALAIS-SUR-MER", "PLAGE DU BUREAU", "mer", "12B", 45.6425, -1.0686],
+        ["SAINT-GEORGES-DE-DIDONNE", "PLAGE CENTRALE", "mer", "10E", 45.6082, -1.0187]
     ]
     
     for item in locations_17:
@@ -313,7 +130,30 @@ def create_data():
             "type_eau": item[2],
             "qualite_code": item[3][1:],
             "nb_prelevements": item[3][0],
-            "region": "Nouvelle-Aquitaine"
+            "region": "Nouvelle-Aquitaine",
+            "latitude": item[4],
+            "longitude": item[5]
+        })
+    
+    # 24 - DORDOGNE (proche Bordeaux <100km)
+    locations_24 = [
+        ["BERGERAC", "POMBONNE", "douce", "5E", 44.8681, 0.4704],
+        ["SAINT-ESTEPHE", "GRAND ETANG DE ST ESTEPHE", "douce", "6E", 45.5640, 0.6326],
+        ["CARSAC-DE-GURSON", "GURSON", "douce", "6E", 44.9823, 0.2262]
+    ]
+    
+    for item in locations_24:
+        data.append({
+            "departement": "24",
+            "departement_nom": "DORDOGNE",
+            "commune": item[0],
+            "point_prelevement": item[1],
+            "type_eau": item[2],
+            "qualite_code": item[3][1:],
+            "nb_prelevements": item[3][0],
+            "region": "Nouvelle-Aquitaine",
+            "latitude": item[4],
+            "longitude": item[5]
         })
     
     # Conversion en DataFrame
@@ -322,54 +162,12 @@ def create_data():
     # Ajout de la colonne qualité (libellé)
     df["qualite"] = df["qualite_code"].map(quality_codes)
     
-    # Simulation de coordonnées pour la démonstration
-    # Dans une application réelle, il faudrait utiliser une API de géocodage
-    coordinates = {
-        # Coordonnées approximatives pour quelques villes de Nouvelle-Aquitaine
-        "ANGLET": (43.4831, -1.5142),
-        "BIARRITZ": (43.4832, -1.5586),
-        "HENDAYE": (43.3784, -1.7735),
-        "BORDEAUX": (44.8378, -0.5792),
-        "LACANAU": (45.0014, -1.1958),
-        "ARCACHON": (44.6523, -1.1677),
-        "ANDERNOS-LES-BAINS": (44.7431, -1.0989),
-        "POITIERS": (46.5802, 0.3404),
-        "SAINT-YRIEIX-LA-PERCHE": (45.5147, 1.2055),
-        "BEAUMONT-DU-LAC": (45.7876, 1.8724),
-        "BISCARROSSE": (44.3917, -1.1650),
-        "MIMIZAN": (44.2014, -1.2299),
-        "CAPBRETON": (43.6394, -1.4331),
-        "SEIGNOSSE": (43.6932, -1.3729),
-        "SAINT-JEAN-DE-LUZ": (43.3896, -1.6613),
-        "ROYAN": (45.6231, -1.0267)
-    }
+    # Les coordonnées sont déjà intégrées dans les données
+    # Nous n'avons pas besoin de générer des coordonnées aléatoires
+    # puisque toutes les données ont maintenant des coordonnées précises
     
-    # Pour les villes sans coordonnées, on génère des positions aléatoires dans la région
-    def generate_random_coordinates():
-        # Limites approximatives pour la Nouvelle-Aquitaine
-        min_lat, max_lat = 43.0, 47.0
-        min_lon, max_lon = -1.8, 2.5
-        return (min_lat + random.random() * (max_lat - min_lat),
-                min_lon + random.random() * (max_lon - min_lon))
-    
-    # Ajout des coordonnées au DataFrame
-    latitudes = []
-    longitudes = []
-    
-    for commune in df["commune"]:
-        if commune in coordinates:
-            lat, lon = coordinates[commune]
-        else:
-            # Coordonnées aléatoires pour les communes non répertoriées
-            lat, lon = generate_random_coordinates()
-            # Sauvegarde pour la cohérence (même commune = mêmes coordonnées)
-            coordinates[commune] = (lat, lon)
-        
-        latitudes.append(lat)
-        longitudes.append(lon)
-    
-    df["latitude"] = latitudes
-    df["longitude"] = longitudes
+    # Note: dans une version future, nous pourrions utiliser une API de géocodage
+    # pour automatiser ce processus avec d'autres points de baignade
     
     return df
 
